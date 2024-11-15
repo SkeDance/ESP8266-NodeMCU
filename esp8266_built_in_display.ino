@@ -12,7 +12,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 U8G2_FOR_ADAFRUIT_GFX u8g2_for_adafruit_gfx;
 
 void setup() {
-  Wire.begin(14,12);
+  Wire.begin(14,12);  
   display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
   u8g2_for_adafruit_gfx.begin(display);                 // connect u8g2 procedures to Adafruit GFX
 }
@@ -24,11 +24,17 @@ void loop() {
   u8g2_for_adafruit_gfx.setFontDirection(0);            // left to right (this is default)
   u8g2_for_adafruit_gfx.setForegroundColor(WHITE);      // apply Adafruit GFX color
   u8g2_for_adafruit_gfx.setCursor(0,15);                // start writing at this position
-  u8g2_for_adafruit_gfx.print("Hello World");
+  u8g2_for_adafruit_gfx.print("Display is working!");
   u8g2_for_adafruit_gfx.setCursor(0,40);                // start writing at this position
-  u8g2_for_adafruit_gfx.print("Hello world");            // UTF-8 string with german umlaut chars
+  u8g2_for_adafruit_gfx.print("Have fun with it");            // UTF-8 string with german umlaut chars
   u8g2_for_adafruit_gfx.setCursor(0,60);                // start writing at this position
-  u8g2_for_adafruit_gfx.print("Hello world"); 
+//  if (millis() / 1000 == 1)
+//  {
+//    count++
+//  }
+  uint8_t count = millis() / 1000;  
+  char *s = "Uptime";
+  u8g2_for_adafruit_gfx.print(count); 
   display.display();                                    // make everything visible
-  delay(2000);
+  delay(1000);
 }
