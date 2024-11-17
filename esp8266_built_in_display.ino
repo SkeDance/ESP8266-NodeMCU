@@ -33,7 +33,7 @@ void loop() {
 //    count++
 //  }
   uint8_t count = millis() / 1000;  
-  char *s = "Uptime";
+  //char *s = "Uptime";
   u8g2_for_adafruit_gfx.print(count); 
   display.display();                                    // make everything visible
   delay(1000);
