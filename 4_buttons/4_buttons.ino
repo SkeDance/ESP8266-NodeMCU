@@ -1,18 +1,36 @@
-#define PIN_HIGH 5  // GPIO5, соответствует D1
-
+#define LED_PIN_D8 15     // Пин, к которому подключен светодиод
+#define BUTTON_PIN_D0 16  // Пин, к которому подключена кнопка
+#define BUTTON_PIN_D1 5  // Пин, к которому подключена кнопка
+#define BUTTON_PIN_D2 4  // Пин, к которому подключена кнопка
+#define BUTTON_PIN_D3 0  // Пин, к которому подключена кнопка
 void setup() {
-  // Настройка GPIO5 как выходного
-  pinMode(PIN_HIGH, OUTPUT);
-
-  // Установка постоянного высокого уровня
-  digitalWrite(PIN_HIGH, HIGH);
-
-  // Сообщение для подтверждения
-  Serial.begin(115200);
-  Serial.println("GPIO5 (D1) установлен в высокий уровень.");
+  pinMode(LED_PIN_D8, OUTPUT);           // Настраиваем пин светодиода как выход
+  pinMode(BUTTON_PIN_D0, INPUT_PULLUP);  // Настраиваем пин кнопки как вход с подтягивающим резистором
+  pinMode(BUTTON_PIN_D1, INPUT_PULLUP);
+  pinMode(BUTTON_PIN_D2, INPUT_PULLUP);
+  pinMode(BUTTON_PIN_D3, INPUT_PULLUP);
 }
 
 void loop() {
-  // Основной цикл пуст, так как уровень постоянный
+//  if (digitalRead(BUTTON_PIN_D0) == LOW) {  // Кнопка нажата (сигнал LOW из-за подтягивающего резистора)
+//    digitalWrite(LED_PIN_D8, HIGH);         // Включаем светодиод
+//  } else {
+//    digitalWrite(LED_PIN_D8, LOW);          // Выключаем светодиод
+//  }
+//  if (digitalRead(BUTTON_PIN_D1) == LOW) {  // Кнопка нажата (сигнал LOW из-за подтягивающего резистора)
+//    digitalWrite(LED_PIN_D8, HIGH);         // Включаем светодиод
+//  } else {
+//    digitalWrite(LED_PIN_D8, LOW);          // Выключаем светодиод
+//  }
+//  if (digitalRead(BUTTON_PIN_D2) == LOW) {  // Кнопка нажата (@сигнал LOW из-за подтягивающего резистора)
+//    digitalWrite(LED_PIN_D8, HIGH);         // Включаем светодиод
+//  } else {
+//    digitalWrite(LED_PIN_D8, LOW);          // Выключаем светодиод
+//  }
+  if (digitalRead(BUTTON_PIN_D3) == LOW) {  // Кнопка нажата (сигнал LOW из-за подтягивающего резистора)
+    digitalWrite(LED_PIN_D8, HIGH);         // Включаем светодиод
+  } else {
+    digitalWrite(LED_PIN_D8, LOW);          // Выключаем светодиод
+  }
 }
 

@@ -6,6 +6,11 @@
 #define OLED_RESET -1
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+#define BUTTON_PIN_D0 2  // Пин, к которому подключена кнопка
+#define BUTTON_PIN_D1 5  // Пин, к которому подключена кнопка
+#define BUTTON_PIN_D2 4  // Пин, к которому подключена кнопка
+#define BUTTON_PIN_D3 0  // Пин, к которому подключена кнопка
+
 const int MAP_WIDTH = 128;  // Ширина карты
 const int MAP_HEIGHT = 32;  // Высота карты (ограничение)
 
@@ -44,6 +49,7 @@ private:
 
 Food apple; // Создаем объект фрукта
 
+// Структура для змеи
 // Структура для змеи
 class Snake {
 public:
@@ -110,7 +116,13 @@ public:
 
     // Установка направления движения
     void SetDirection(int dir) {
-        snakeDirection = dir;
+        // Проверяем, не пытается ли игрок развернуться на 180 градусов
+        if ((snakeDirection == UP && dir != DOWN) ||
+            (snakeDirection == DOWN && dir != UP) ||
+            (snakeDirection == LEFT && dir != RIGHT) ||
+            (snakeDirection == RIGHT && dir != LEFT)) {
+            snakeDirection = dir;
+        }
     }
 
     // Получение текущей позиции головы змеи
@@ -150,7 +162,10 @@ Snake snake;  // Создаем объект змеи
 
 void setup() {
     Serial.begin(115200);
-
+    pinMode(BUTTON_PIN_D0, INPUT_PULLUP); 
+    pinMode(BUTTON_PIN_D1, INPUT_PULLUP);
+    pinMode(BUTTON_PIN_D2, INPUT_PULLUP);
+    pinMode(BUTTON_PIN_D3, INPUT_PULLUP);
     // Инициализация дисплея
     Wire.begin(14, 12);
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
@@ -219,17 +234,14 @@ void DrawGameMap() {
 
 void loop() {
     // Чтение данных с монитора порта и управление направлением змеи
-    if (Serial.available() > 0) {
-        char input = Serial.read();  // Чтение введенной команды
-        if (input == 'w') {
-            snake.SetDirection(Snake::UP);
-        } else if (input == 's') {
-            snake.SetDirection(Snake::DOWN);
-        } else if (input == 'a') {
-            snake.SetDirection(Snake::LEFT);
-        } else if (input == 'd') {
-            snake.SetDirection(Snake::RIGHT);
-        }
+    if (digitalRead(BUTTON_PIN_D0) == LOW) {
+        snake.SetDirection(Snake::UP);
+    } else if (digitalRead(BUTTON_PIN_D1) == LOW) {
+        snake.SetDirection(Snake::DOWN);
+    } else if (digitalRead(BUTTON_PIN_D2) == LOW) {
+        snake.SetDirection(Snake::LEFT);
+    } else if (digitalRead(BUTTON_PIN_D3) == LOW) {
+        snake.SetDirection(Snake::RIGHT);
     }
 
     // Логика игры (например, перемещение объектов и обновление карты)
@@ -255,4 +267,3 @@ void loop() {
 
     delay(100);  // Задержка для замедления игры
 }
-
